@@ -1,0 +1,1 @@
+- [LLM gateway](llm-gateway.md) — local Docker gateway adds free OpenRouter models to Claude Code /model picker; Anthropic passthrough intact

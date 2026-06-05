@@ -1,0 +1,6 @@
+{
+  "skipDangerousModePermissionPrompt": true,
+  "theme": "dark",
+  "model": "claude-free-nemotron-3-super",
+  "effortLevel": "medium"
+}

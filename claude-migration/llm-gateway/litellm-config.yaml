@@ -1,0 +1,81 @@
+model_list:
+  # ═══════════════════════════════════════════════════════════════════
+  # OpenRouter FREE modely (žiadne kredity, len rate-limit)
+  # ═══════════════════════════════════════════════════════════════════
+  # POZNÁMKA: DeepSeek V4 NIE je tu — ide priamo cez router na
+  # https://api.deepseek.com/anthropic (natívny Anthropic endpoint),
+  # nie cez LiteLLM. Pozri router/app.py (DEEPSEEK_MODELS).
+  - model_name: claude-free-nemotron-3-ultra
+    litellm_params:
+      model: openrouter/nvidia/nemotron-3-ultra-550b-a55b:free
+      api_key: os.environ/OPENROUTER_API_KEY
+  - model_name: claude-free-nemotron-3-super
+    litellm_params:
+      model: openrouter/nvidia/nemotron-3-super-120b-a12b:free
+      api_key: os.environ/OPENROUTER_API_KEY
+  - model_name: claude-free-hermes-3-405b
+    litellm_params:
+      model: openrouter/nousresearch/hermes-3-llama-3.1-405b:free
+      api_key: os.environ/OPENROUTER_API_KEY
+  - model_name: claude-free-qwen3-coder
+    litellm_params:
+      model: openrouter/qwen/qwen3-coder:free
+      api_key: os.environ/OPENROUTER_API_KEY
+  - model_name: claude-free-kimi-k2.6
+    litellm_params:
+      model: openrouter/moonshotai/kimi-k2.6:free
+      api_key: os.environ/OPENROUTER_API_KEY
+  - model_name: claude-free-gemma-4-31b
+    litellm_params:
+      model: openrouter/google/gemma-4-31b-it:free
+      api_key: os.environ/OPENROUTER_API_KEY
+  - model_name: claude-free-llama-3.3-70b
+    litellm_params:
+      model: openrouter/meta-llama/llama-3.3-70b-instruct:free
+      api_key: os.environ/OPENROUTER_API_KEY
+  - model_name: claude-free-glm-4.5-air
+    litellm_params:
+      model: openrouter/z-ai/glm-4.5-air:free
+      api_key: os.environ/OPENROUTER_API_KEY
+  - model_name: claude-free-qwen3-next-80b
+    litellm_params:
+      model: openrouter/qwen/qwen3-next-80b-a3b-instruct:free
+      api_key: os.environ/OPENROUTER_API_KEY
+  - model_name: claude-free-gpt-oss-120b
+    litellm_params:
+      model: openrouter/openai/gpt-oss-120b:free
+      api_key: os.environ/OPENROUTER_API_KEY
+
+  # ═══════════════════════════════════════════════════════════════════
+  # OpenRouter PAID model (vyžaduje kredity na OpenRouter účte)
+  # ═══════════════════════════════════════════════════════════════════
+  - model_name: claude-free-devstral-2
+    litellm_params:
+      model: openrouter/mistralai/devstral-2512
+      api_key: os.environ/OPENROUTER_API_KEY
+
+litellm_settings:
+  drop_params: true
+  request_timeout: 600
+
+router_settings:
+  num_retries: 1
+
+  fallbacks:
+    # ── Free modely: fallback medzi sebou (nikdy nie na platené) ──
+    - claude-free-nemotron-3-ultra: [claude-free-nemotron-3-super, claude-free-hermes-3-405b, claude-free-qwen3-coder, claude-free-kimi-k2.6, claude-free-gemma-4-31b, claude-free-llama-3.3-70b, claude-free-glm-4.5-air, claude-free-qwen3-next-80b, claude-free-gpt-oss-120b]
+    - claude-free-nemotron-3-super: [claude-free-nemotron-3-ultra, claude-free-hermes-3-405b, claude-free-qwen3-coder, claude-free-kimi-k2.6, claude-free-gemma-4-31b, claude-free-llama-3.3-70b, claude-free-glm-4.5-air, claude-free-qwen3-next-80b, claude-free-gpt-oss-120b]
+    - claude-free-hermes-3-405b: [claude-free-nemotron-3-super, claude-free-nemotron-3-ultra, claude-free-qwen3-coder, claude-free-kimi-k2.6, claude-free-gemma-4-31b, claude-free-llama-3.3-70b, claude-free-glm-4.5-air, claude-free-qwen3-next-80b, claude-free-gpt-oss-120b]
+    - claude-free-qwen3-coder: [claude-free-nemotron-3-super, claude-free-hermes-3-405b, claude-free-kimi-k2.6, claude-free-gemma-4-31b, claude-free-llama-3.3-70b, claude-free-glm-4.5-air, claude-free-qwen3-next-80b, claude-free-gpt-oss-120b, claude-free-nemotron-3-ultra]
+    - claude-free-kimi-k2.6: [claude-free-nemotron-3-super, claude-free-hermes-3-405b, claude-free-qwen3-coder, claude-free-gemma-4-31b, claude-free-llama-3.3-70b, claude-free-glm-4.5-air, claude-free-qwen3-next-80b, claude-free-gpt-oss-120b, claude-free-nemotron-3-ultra]
+    - claude-free-gemma-4-31b: [claude-free-nemotron-3-super, claude-free-hermes-3-405b, claude-free-qwen3-coder, claude-free-kimi-k2.6, claude-free-llama-3.3-70b, claude-free-glm-4.5-air, claude-free-qwen3-next-80b, claude-free-gpt-oss-120b, claude-free-nemotron-3-ultra]
+    - claude-free-llama-3.3-70b: [claude-free-nemotron-3-super, claude-free-hermes-3-405b, claude-free-gemma-4-31b, claude-free-qwen3-next-80b, claude-free-kimi-k2.6, claude-free-gpt-oss-120b, claude-free-qwen3-coder, claude-free-glm-4.5-air, claude-free-nemotron-3-ultra]
+    - claude-free-glm-4.5-air: [claude-free-nemotron-3-super, claude-free-kimi-k2.6, claude-free-qwen3-next-80b, claude-free-qwen3-coder, claude-free-gpt-oss-120b, claude-free-llama-3.3-70b, claude-free-hermes-3-405b, claude-free-gemma-4-31b, claude-free-nemotron-3-ultra]
+    - claude-free-qwen3-next-80b: [claude-free-nemotron-3-super, claude-free-glm-4.5-air, claude-free-kimi-k2.6, claude-free-qwen3-coder, claude-free-gpt-oss-120b, claude-free-llama-3.3-70b, claude-free-hermes-3-405b, claude-free-gemma-4-31b, claude-free-nemotron-3-ultra]
+    - claude-free-gpt-oss-120b: [claude-free-nemotron-3-super, claude-free-glm-4.5-air, claude-free-kimi-k2.6, claude-free-qwen3-next-80b, claude-free-qwen3-coder, claude-free-llama-3.3-70b, claude-free-hermes-3-405b, claude-free-gemma-4-31b, claude-free-nemotron-3-ultra]
+
+    # ── Platené: fallback na free modely ──
+    - claude-free-devstral-2: [claude-free-glm-4.5-air, claude-free-kimi-k2.6, claude-free-qwen3-next-80b, claude-free-qwen3-coder, claude-free-gpt-oss-120b, claude-free-llama-3.3-70b, claude-free-nemotron-3-super, claude-free-hermes-3-405b, claude-free-gemma-4-31b, claude-free-nemotron-3-ultra]
+
+general_settings:
+  master_key: os.environ/LITELLM_MASTER_KEY
